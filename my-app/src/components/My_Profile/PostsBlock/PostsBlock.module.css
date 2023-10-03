@@ -1,0 +1,16 @@
+.Post img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.item {
+    margin-top: 10px;
+}
+
+.item span:hover {
+    cursor: pointer;
+}
+
+.PostsBlock {
+    padding: 10px;
+}

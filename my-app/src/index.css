@@ -1,0 +1,27 @@
+.container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar content';
+  grid-gap: 10px;
+  grid-template-columns: 2fr 10fr;
+  grid-template-rows: 50px 1fr;
+}
+
+.item {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.header {
+  grid-area: header;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.content {
+  grid-area: content;
+}

@@ -1,0 +1,19 @@
+.container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar content';
+  grid-gap: 10px;
+  grid-template-columns: 2fr 10fr;
+  grid-template-rows: 50px 1fr;
+}
+
+.content {
+  grid-area: content;
+  background-color: black;
+  color: white;
+}
+
+
+

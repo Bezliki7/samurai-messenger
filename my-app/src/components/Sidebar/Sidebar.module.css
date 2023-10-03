@@ -1,0 +1,20 @@
+.sidebar {
+    grid-area: sidebar;
+    align-self: start;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+  }
+  
+.item {
+  padding: 10px; 
+}
+
+.item a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.item a:active,
+.item a:focus {
+  color: orange;
+}

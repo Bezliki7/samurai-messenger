@@ -1,0 +1,37 @@
+.Messages {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.item {
+    color: rgb(75, 29, 190);
+    padding-top: 10px;
+}
+
+/* .messageItems {
+    padding: 10px;
+} */
+
+
+.user {
+    padding: 10px;
+}
+
+.user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.user a:active,
+.user a:focus{
+    color: orange;
+}
+
+
+
