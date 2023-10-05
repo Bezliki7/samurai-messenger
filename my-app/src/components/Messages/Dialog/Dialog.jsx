@@ -2,7 +2,7 @@ import s from './../Messages.module.css'
 import { NavLink } from 'react-router-dom'
 
 
-const User = (props) => {
+const Dialog = (props) => {
     return (
         <div>
             <div className={s.user}> <NavLink to={"/Messages/" + props.id}>
@@ -15,4 +15,4 @@ const User = (props) => {
     )
 }
 
-export default User
+export default Dialog

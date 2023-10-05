@@ -10,6 +10,7 @@ const Sidebar = () => {
             <div className={s.item}> <NavLink to="News">News</NavLink> </div>
             <div className={s.item}> <NavLink to="Music">Music</NavLink> </div>
             <div className={s.item}> <NavLink to="Settings">Settings</NavLink> </div>
+            <div className={s.item}> <NavLink to="Users">Find users</NavLink> </div>
     </div>)
 }
 

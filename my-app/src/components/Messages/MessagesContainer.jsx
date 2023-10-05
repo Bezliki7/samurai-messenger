@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendMessageCreator, updateMessageCreator } from '../../Redux/MessagePageReducer';
+import { sendMessageCreator, updateMessageCreator } from '../../Redux/MessageReducer';
 import Messages from './Messages';
 
 
 const MessagesContainer = () => {
     const dispatch = useDispatch()
-    const usersData = useSelector(state => state.messagePage.usersData)
+    const dialogsData = useSelector(state => state.messagePage.dialogsData)
     const messagesData = useSelector(state => state.messagePage.messagesData)
     const newMess = useSelector(state => state.messagePage.newMess)
 
@@ -19,7 +19,7 @@ const MessagesContainer = () => {
         dispatch(action)
     }
 
-    return (<Messages usersData={usersData} messagesData={messagesData} 
+    return (<Messages dialogsData={dialogsData} messagesData={messagesData} 
                       newMess={newMess} sendMessage={sendMessage} updateMessage={updateMessage} />)
 }
 

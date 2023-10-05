@@ -6,11 +6,8 @@ let initialState = {
                { id: 2, post: "привет", likes: 12 }],
     newPost: '',
 }
-let copy = {...initialState}
-copy.datapost = [{...initialState.datapost}]
-window.copy = copy
-function profilePageReducer(state = initialState, action) {
-    debugger
+
+function profileReducer(state = initialState, action) {
     switch (action.type) {
         case ADD_POST: {
             let stateCopy = {...state}
@@ -31,4 +28,4 @@ function profilePageReducer(state = initialState, action) {
 export const addPostCreator = () => ({ type: ADD_POST })
 export const updateNewPostCreator = (post) => ({ type: UPDATE_NEW_POST, post: post })
 
-export default profilePageReducer
+export default profileReducer

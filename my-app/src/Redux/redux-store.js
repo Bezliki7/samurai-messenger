@@ -1,13 +1,14 @@
 import {configureStore } from '@reduxjs/toolkit'
-import profilePageReducer from './ProfilePageReducer'
-import messagePageReducer from './MessagePageReducer'
-
+import usersReducer from './UsersReducer'
+import profileReducer from './ProfileReducer'
+import messageReducer from './MessageReducer'
 
 
 let store = configureStore({
     reducer: {
-        profilePage: profilePageReducer,
-        messagePage: messagePageReducer
+        profilePage: profileReducer,
+        messagePage: messageReducer,
+        usersPage: usersReducer,
     }
 })
 

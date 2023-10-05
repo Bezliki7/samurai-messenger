@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addPostCreator, updateNewPostCreator } from '../../../Redux/ProfilePageReducer'
+import { addPostCreator, updateNewPostCreator } from '../../../Redux/ProfileReducer'
 import PostsBlock from './PostsBlock';
 
 const PostsBlockContainer = () => {
