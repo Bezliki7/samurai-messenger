@@ -8,8 +8,8 @@ const PostsBlockContainer = () => {
     const post = useSelector(state => state.profilePage.newPost)
     const datapost = useSelector(state => state.profilePage.datapost)
 
-    let addPost = () => {
-        let action = addPostCreator()
+    let addPost = (post) => {
+        let action = addPostCreator(post)
         dispatch(action);
     }
     let updateNewPost = (text) => {
@@ -17,9 +17,7 @@ const PostsBlockContainer = () => {
         dispatch(action)
     }
 
-    return ( 
-    <PostsBlock addPost={addPost} updateNewPost={updateNewPost} 
-                post={post} datapost ={datapost} />)
+    return ( <PostsBlock addPost={addPost} post={post} datapost ={datapost} />)
 }
 
 export default PostsBlockContainer

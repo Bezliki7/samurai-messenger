@@ -3,7 +3,6 @@ import Message from './Message/Message';
 import s from './Messages.module.css';
 import Dialog from './Dialog/Dialog';
 
-
 const Messages = (props) => {
     let dialogs = props.dialogsData.map(el => <Dialog id={el.id} name={el.name} photo={el.photo} />);
     let messageItem = props.messagesData.map(el => <Message id={el.id} mess={el.mess} />);
@@ -15,7 +14,6 @@ const Messages = (props) => {
     let updateMessage = () => {
         props.updateMessage(messageElement.current.value)
     }
-
     return (
         <div className={s.Messages}>
             <div className={s.dialogs}> {dialogs} </div>

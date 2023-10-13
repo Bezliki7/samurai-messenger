@@ -2,4 +2,18 @@
     grid-area: header;
     background-color: rgb(0, 0, 0);
     color: white;
+    
+    }
+
+.loginBlock {
+    float: right;
+}
+
+.loginBlock a{
+    color: white;
+    text-decoration: none;
+}
+
+.loginBlock a:hover {
+    color: orange;
 }

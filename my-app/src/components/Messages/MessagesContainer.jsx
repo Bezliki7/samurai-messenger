@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendMessageCreator, updateMessageCreator } from '../../Redux/MessageReducer';
 import Messages from './Messages';
-
+import { WithAuthRedirect } from '../HOC/WithAuth';
 
 const MessagesContainer = () => {
     const dispatch = useDispatch()
@@ -19,8 +19,10 @@ const MessagesContainer = () => {
         dispatch(action)
     }
 
-    return (<Messages dialogsData={dialogsData} messagesData={messagesData} 
+    // let MessagesWithAuthRedirect = WithAuthRedirect(Messages)
+    return (<Messages dialogsData={dialogsData} messagesData={messagesData}
                       newMess={newMess} sendMessage={sendMessage} updateMessage={updateMessage} />)
 }
 
 export default MessagesContainer
+

@@ -1,37 +1,41 @@
 import React from "react"
 import styles from "./Users.module.css"
+import userPhoto from "../../assets/images/user.jpg"
+import { NavLink } from "react-router-dom"
 
-let Users = (props) => {
-    if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1, photoUrl: 'https://i.pinimg.com/originals/05/52/5c/05525c120abb931a6df250f2e3ab03be.jpg',
-                followed: true, fullName: 'Ruslan', status: 'dada0',
-            },
-            {
-                id: 2, photoUrl: 'https://i.pinimg.com/originals/05/52/5c/05525c120abb931a6df250f2e3ab03be.jpg',
-                followed: false, fullName: 'Violet', status: 'haha',
-            },
-            {
-                id: 3, photoUrl: 'https://i.pinimg.com/originals/05/52/5c/05525c120abb931a6df250f2e3ab03be.jpg',
-                followed: true, fullName: 'fn', status: 'mm',
-            }
-        ])
+
+function Users(props) {
+    let totalPage = Math.ceil(props.totalUsers / props.pageSize)
+    let pages = []
+    for (let i = 1; i < totalPage + 1; i++) {
+        pages.push(i)
     }
-
     return (
         <div>
+            <div className={styles.pages}>
+                {pages.map(p => {
+                    return (<span className={(p === props.currentPage) ? styles.activePage : null}
+                        onClick={() => props.setPage(p)}> {p} </span>)
+                })}
+            </div>
             {props.users.map(u => {
                 return (
                     <div className={styles.users}>
                         <div className={styles.photo} >
-                            <img src={u.photoUrl} />
-                            {u.fullName}
+                            <NavLink to={`/Profile/${u.id}`} >
+                                <img src={(u.photos.large === null) ? userPhoto : u.photos.large} />
+                            </NavLink>
+                            {u.name}
                         </div>
+                        {u.status}
                         <div>
-                            {u.followed
-                                ? <button onClick={() => { props.unfollow(u.id) }}>unfollow</button>
-                                : <button onClick={() => { props.follow(u.id) }}>follow</button>}
+                            {(u.followed
+                                ? <button disabled={props.isFollowing.some(i => i === u.id)} onClick={() => {
+                                    props.unfollow(u.id)
+                                }}> unfollow </button>
+                                : <button disabled={props.isFollowing.some(i => i === u.id)} onClick={() => {
+                                    props.follow(u.id)
+                                }}>  follow  </button>)}
                         </div>
                     </div>
                 )
@@ -39,5 +43,4 @@ let Users = (props) => {
         </div>
     )
 }
-
 export default Users

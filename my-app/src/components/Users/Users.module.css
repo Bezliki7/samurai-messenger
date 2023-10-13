@@ -6,3 +6,11 @@
 .users {
     padding: 7px;
 }
+
+.activePage {
+    color: orange
+}
+
+.pages:hover {
+    cursor: pointer;
+}
