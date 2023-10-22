@@ -1,8 +1,9 @@
 import { ProfilesAPI } from "../api/api"
 
 let ADD_POST = 'ADD-POST'
+let DELETE_POST = 'DELETE-POST'
 let UPDATE_NEW_POST = 'UPDATE-NEW-POST'
-let SET_PROFILE = 'SET-PROFILE'
+let SET_PROFILE = 'profile/SET-PROFILE'
 let GET_USER_STATUS = 'GET-USER-STATUS'
 
 let initialState = {
@@ -19,8 +20,14 @@ function profileReducer(state = initialState, action) {
             let stateCopy = { ...state }
             stateCopy.datapost = [...state.datapost]
             stateCopy.datapost.push({ id: 3, post: action.post, likes: 0 })
-            // stateCopy.newPost = ''
+            stateCopy.newPost = ''
             return stateCopy
+        }
+        case DELETE_POST: {
+            return {
+                ...state,
+                datapost: state.datapost.filter(post => { return post.id !== action.postId })
+            }
         }
         case UPDATE_NEW_POST: {
             let stateCopy = { ...state }
@@ -36,43 +43,40 @@ function profileReducer(state = initialState, action) {
         case GET_USER_STATUS: {
             return {
                 ...state,
-                status: action.status 
+                status: action.status
             }
         }
-
         default: return state
     }
 }
 
 export const addPostCreator = (post) => ({ type: ADD_POST, post })
+export const deletePostAC = (postId) => ({ type: DELETE_POST, postId })
 export const updateNewPostCreator = (post) => ({ type: UPDATE_NEW_POST, post: post })
 export const setProfileAC = (data) => ({ type: SET_PROFILE, data })
 const getUserStatusAC = (status) => ({ type: GET_USER_STATUS, status })
 
-export const getProfileTC = (userId) => {
-    return (dispatch) => {
-        ProfilesAPI.getProfile(userId)
-            .then(data => {
-                return (dispatch(setProfileAC(data)))
-            })
+export const getProfileTC = (userId) =>
+    async (dispatch) => {
+        let data = await ProfilesAPI.getProfile(userId)
+
+        return (dispatch(setProfileAC(data)))
     }
-}
-export const getUserStatusTC = (uId) => {
-    return (dispatch) => {
-        ProfilesAPI.getUserStatus(uId)
-            .then(response => {
-                dispatch(getUserStatusAC(response.data))
-            })
+
+export const getUserStatusTC = (uId) =>
+    async (dispatch) => {
+        let response = await ProfilesAPI.getUserStatus(uId)
+
+        dispatch(getUserStatusAC(response.data))
     }
-}
-export const updateStatusTC = (status) => {
-    return (dispatch) => {
-        ProfilesAPI.UpdateStatus(status)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(getUserStatusAC(status))
-                }
-            })
+
+export const updateStatusTC = (status) => 
+    async (dispatch) => {
+        let response = await ProfilesAPI.UpdateStatus(status)
+        
+        if (response.data.resultCode === 0) {
+            dispatch(getUserStatusAC(status))
+        }
     }
-}
+
 export default profileReducer

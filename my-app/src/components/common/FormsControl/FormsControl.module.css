@@ -1,0 +1,17 @@
+.error textarea,
+.error input {
+    border: 2px solid red;
+}
+
+.error span{
+    color: red;
+}
+
+textarea:focus, input:focus {outline: none;}
+
+.err {
+    color: red;
+    border: 1px solid red;
+    width: max-content;
+    padding: 2px;
+}

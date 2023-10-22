@@ -1,10 +1,10 @@
 import Preloader from '../../common/preloader/Preloader'
 import s from './Description.module.css'
-import DescriptionStatus from './DescriptionStatus'
+import DescriptionStatus from './DescriptionStatusWithHooks'
 
 
 const Description = (props) => {
-    if (!props.description.photos) {
+    if (!props.description.photos ) {
         return <Preloader />
     }
     return (

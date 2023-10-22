@@ -1,0 +1,7 @@
+.activePage {
+    color: orange
+}
+
+.pages:hover {
+    cursor: pointer;
+}

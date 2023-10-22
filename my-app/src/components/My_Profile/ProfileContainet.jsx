@@ -3,14 +3,17 @@ import Profile from "./Profile"
 import React from "react"
 import { useParams } from "react-router-dom"
 import { getProfileTC, getUserStatusTC, updateStatusTC } from "../../Redux/ProfileReducer"
-// import { WithAuthRedirect } from "../HOC/WithAuth"
+import { WithAuthRedirect } from "../HOC/WithAuth"
+
 
 class ProfileAPI extends React.Component {
     componentDidMount() {
         let userId = this.props.params.userId
-        if (!userId) { userId = 30143 }
-        this.props.getProfile(userId)
-        this.props.getUserStatus(userId)
+        if (!userId) { userId = this.props.userAuthId}
+        if (userId) {
+            this.props.getProfile(userId)
+            this.props.getUserStatus(userId)  
+        }
     }
     
     render() {
@@ -22,6 +25,7 @@ export const ProfileContainer = () => {
     const dispatch = useDispatch()
     const description = useSelector(state => state.profilePage.description)
     const status = useSelector(state => state.profilePage.status)
+    const userAuthId = useSelector(state => state.auth.id)
 
     const getUserStatus = (uId) => {
         dispatch(getUserStatusTC(uId))
@@ -32,6 +36,6 @@ export const ProfileContainer = () => {
     const updateStatus = (status) => {
         dispatch(updateStatusTC(status))
     }
-    return (<ProfileAPI getProfile={getProfile} status={status} getUserStatus={getUserStatus} updateStatus={updateStatus}
+    return (<ProfileAPI getProfile={getProfile} userAuthId={userAuthId} status={status} getUserStatus={getUserStatus} updateStatus={updateStatus}
         description={description} params={useParams()} />)
 }

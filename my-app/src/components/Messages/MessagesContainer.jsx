@@ -8,20 +8,18 @@ const MessagesContainer = () => {
     const dispatch = useDispatch()
     const dialogsData = useSelector(state => state.messagePage.dialogsData)
     const messagesData = useSelector(state => state.messagePage.messagesData)
-    const newMess = useSelector(state => state.messagePage.newMess)
 
-    let sendMessage = () => {
-        let action = sendMessageCreator()
+    let sendMessage = (text) => {
+        let action = sendMessageCreator(text)
         dispatch(action)
     };
     let updateMessage = (text) => {
         let action = updateMessageCreator(text)
         dispatch(action)
     }
-
     // let MessagesWithAuthRedirect = WithAuthRedirect(Messages)
     return (<Messages dialogsData={dialogsData} messagesData={messagesData}
-                      newMess={newMess} sendMessage={sendMessage} updateMessage={updateMessage} />)
+                       sendMessage={sendMessage} updateMessage={updateMessage} />)
 }
 
 export default MessagesContainer

@@ -4,21 +4,22 @@ import { setPageAC } from "../../Redux/UsersReducer"
 import Users from "./Users"
 import Preloader from "../common/preloader/Preloader"
 import { getUserThunkCreator, unfollowTC, followTC } from "../../Redux/UsersReducer"
+import { getIsFollowing, getPage, getPageSize, getTotalUsers, getUsers } from "../../Redux/reselectors"
 // import { WithAuthRedirect } from "../HOC/WithAuth"
 
 let UsersContainer = () => {
     const dispatch = useDispatch()
-    const users = useSelector(state => state.usersPage.users)
-    const currentPage = useSelector(state => state.usersPage.currentPage)
-    const totalUsers = useSelector(state => state.usersPage.totalUsers)
-    const pageSize = useSelector(state => state.usersPage.pageSize);
-    const isFollowing = useSelector(state => state.usersPage.isFollowing)
+    const users = useSelector(state => getUsers(state))
+    const page = useSelector(state => getPage(state))
+    const totalUsers = useSelector(state => getTotalUsers(state))
+    const pageSize = useSelector(state => getPageSize(state));
+    const isFollowing = useSelector(state => getIsFollowing(state))
 
     let setPage = (page) => {
         dispatch(setPageAC(page))
     }
-    let getUsers = (currentPage,pageSize) => {
-        dispatch(getUserThunkCreator(currentPage,pageSize))
+    let requestUsers = (page,pageSize) => {
+        dispatch(getUserThunkCreator(page,pageSize))
     }
     let unfollow = (id) => {
         dispatch(unfollowTC(id))
@@ -26,20 +27,21 @@ let UsersContainer = () => {
     let follow = (id) => {
         dispatch(followTC(id))
     }
-    return (<UsersAPI users={users} follow={follow} unfollow={unfollow} getUsers={getUsers} 
-            currentPage={currentPage} setPage={setPage} totalUsers={totalUsers} pageSize={pageSize} isFollowing={isFollowing} /> 
+    return (<UsersAPI users={users} follow={follow} unfollow={unfollow} requestUsers={requestUsers} 
+            page={page} setPage={setPage} totalUsers={totalUsers} pageSize={pageSize} isFollowing={isFollowing} /> 
     )
 }
 
 class UsersAPI extends React.Component {
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        this.props.requestUsers(this.props.Page, this.props.pageSize)
     }
     setPage = (page) => {
         this.props.setPage(page)
-        this.props.getUsers(page, this.props.pageSize)
+        this.props.requestUsers(page, this.props.pageSize)
     }
     render() {
+        console.log('ss')
         // let UsersWithAuthRedirect = WithAuthRedirect(Users)
         return (
             <>

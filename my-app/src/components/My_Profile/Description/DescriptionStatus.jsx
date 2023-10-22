@@ -30,13 +30,13 @@ class DescriptionStatus extends React.Component {
     }
 
     render() {
-        debugger
+
         return (
             <>
                 {(this.state.editMode)
                     ? <div> <input onChange={this.changeStatus} autoFocus={true}
                         onBlur={this.deactivateEditMode} value={this.state.status} /> </div>
-                    : <div onDoubleClick={this.activeEditMide} > {this.props.status || 'no status'} </div>}
+                    : <span onDoubleClick={this.activeEditMide} > {this.props.status || 'no status'} </span>}
 
             </>
         )

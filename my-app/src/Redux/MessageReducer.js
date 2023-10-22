@@ -8,7 +8,6 @@ let initialState = {
     { id: 4, name: 'Eris', photo: 'https://foni.club/uploads/posts/2023-02/thumbs/1676776854_foni-club-p-oboi-reinkarnatsiya-bezrabotnogo-na-pk-15.jpg' }],
     messagesData: [{ id: 1, mess: 'Rudy' },
     { id: 2, mess: 'how a u' },],
-    newMess: ""
 }
 
 function messageReducer(state = initialState, action) {
@@ -16,8 +15,7 @@ function messageReducer(state = initialState, action) {
         case SEND_MESSAGE:
             return {
                 ...state,
-                messagesData: [...state.messagesData, { id: 0, mess: state.newMess }],
-                newMess: ""
+                messagesData: [...state.messagesData, { id: 0, mess: action.text }],
             };
         case UPDATE_MESSAGE:
             return {
@@ -28,7 +26,7 @@ function messageReducer(state = initialState, action) {
     }
 }
 
-export const sendMessageCreator = () => ({ type: SEND_MESSAGE })
+export const sendMessageCreator = (text) => ({ type: SEND_MESSAGE, text })
 export const updateMessageCreator = (char) => ({ type: UPDATE_MESSAGE, newChar: char })
 
 export default messageReducer

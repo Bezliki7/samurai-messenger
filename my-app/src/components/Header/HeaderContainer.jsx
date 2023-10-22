@@ -1,7 +1,7 @@
 import Header from './Header'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserAuthDataTC } from '../../Redux/AuthReducer'
+import { getUserAuthDataTC, logoutTC } from '../../Redux/AuthReducer'
 
 
 class HeaderClass extends React.Component {
@@ -18,11 +18,14 @@ function HeaderContainer() {
     let uLogin = useSelector(state => state.auth.login)
     let isAuth = useSelector(state => state.auth.isAuth)
     
-    let getUserAuthData = () => {
+    const logout = () => {
+        dispatch(logoutTC())
+    }
+    const getUserAuthData = () => {
         dispatch(getUserAuthDataTC())
     }
 
-    return (<HeaderClass getUserAuthData={getUserAuthData} uLogin={uLogin} isAuth={isAuth} />)
+    return (<HeaderClass getUserAuthData={getUserAuthData} uLogin={uLogin} isAuth={isAuth} logout={logout} />)
 }
 
 export default HeaderContainer

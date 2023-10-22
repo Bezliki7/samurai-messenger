@@ -5,6 +5,7 @@ import messageReducer from './MessageReducer'
 import authReducer from './AuthReducer'
 import thunkMiddleware from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
+import appReducer from './AppReducer'
 
 
 let store = configureStore({
@@ -14,6 +15,7 @@ let store = configureStore({
         usersPage: usersReducer,
         auth: authReducer,
         form: formReducer,
+        app: appReducer
     }
 }, applyMiddleware(thunkMiddleware))
 

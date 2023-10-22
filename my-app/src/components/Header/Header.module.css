@@ -14,6 +14,6 @@
     text-decoration: none;
 }
 
-.loginBlock a:hover {
+.logout:hover {
     color: orange;
 }
