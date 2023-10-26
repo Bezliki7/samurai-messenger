@@ -6,6 +6,8 @@ let initialState = {
     initialized: false,
 }
 
+
+
 function appReducer(state = initialState, action) {
     switch (action.type) {
         case INITIALIZATION: {

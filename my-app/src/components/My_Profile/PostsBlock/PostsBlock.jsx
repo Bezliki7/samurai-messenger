@@ -16,12 +16,10 @@ const AddPostForum = (props) => {
     )
 }
 
-const ReduxAddPostForum = reduxForm({
-    form: 'addPost'
-})(AddPostForum)
+const ReduxAddPostForum = reduxForm({form: 'addPost'})(AddPostForum)
 
-const PostsBlock = (props) => {
-    let posts = props.datapost.map(p => <Posts id={p.id} message={p.post} likes={p.likes} />);
+const PostsBlock = ({datapost, photos, ...props}) => {
+    let posts = datapost.map(p => <Posts key={p.id} id={p.id} message={p.post} likes={p.likes} photos={photos} />);
     const PostText = (dataForm) => {
         props.addPost(dataForm.post)
     }

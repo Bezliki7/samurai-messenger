@@ -23,14 +23,14 @@ function usersReducer(state = initialState, action) {
         case FOLLOW: {
             return {
                 ...state,
-                users: userToFollowUnfollow(state.users,'id',action.userId, {followed: true}) 
+                users: userToFollowUnfollow(state.users, 'id', action.userId, { followed: true })
 
             }
         }
         case UNFOLLOW: {
             return {
                 ...state,
-                users: userToFollowUnfollow(state.users, 'id', action.userId, {followed: false}) 
+                users: userToFollowUnfollow(state.users, 'id', action.userId, { followed: false })
             }
         }
         case SET_USERS: {
@@ -78,12 +78,16 @@ export const getUserThunkCreator = (currentPage, pageSize) =>
         dispatch(toggleIsFetchingAC(false))
     }
 
-const followUnfollowFlow = (id, actionCreator, apiMethod) => 
+const followUnfollowFlow = (id, actionCreator, apiMethod) =>
     async (dispatch) => {
-        dispatch(toggleIsFollowingAC(true, id))
-        let data = await apiMethod(id)
-        if (data.resultCode == 0) { dispatch(actionCreator(id)) }
-        dispatch(toggleIsFollowingAC(false, id))
+        try {
+            dispatch(toggleIsFollowingAC(true, id))
+            let data = await apiMethod(id)
+            if (data.resultCode == 0) { dispatch(actionCreator(id)) }
+            dispatch(toggleIsFollowingAC(false, id))
+        }
+        catch (err) { console.error(err) }
+
     }
 
 export const unfollowTC = (id) => followUnfollowFlow(id, unfollowAC, UsersApi.unfollow)

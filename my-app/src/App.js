@@ -4,7 +4,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Music from './components/Music/Music';
 import News from './components/News/News';
 import Settings from './components/Settings/Settings';
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import UsersContainer from './components/Users/UsersContainer';
 import { ProfileContainer } from './components/My_Profile/ProfileContainet';
 import HeaderContainer from './components/Header/HeaderContainer';
@@ -30,6 +30,7 @@ class App extends React.Component {
         <div className='content'>
           <React.Suspense fallback={ <Preloader/> }>
             <Routes>
+              <Route path='/' element={<Navigate to='/Profile' /> } />
               <Route path='/Messages/*' element={<MessagesContainer />} />
               <Route path='/Profile/:userId?' element={<ProfileContainer />} />
               <Route path='/Music' element={<Music />} />

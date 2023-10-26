@@ -1,7 +1,22 @@
 .Disc img {
-  width: 100px;
+  width: 150px;
 }
 
 .Disc {
   padding: 10px
+}
+
+input[type="file"] {
+  opacity: 0;
+}
+
+label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events:none;
+}
+
+.changePhoto {
+  position:relative;
 }

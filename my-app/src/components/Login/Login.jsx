@@ -9,35 +9,39 @@ import { Navigate } from "react-router-dom"
 
 const LoginForm = (props) => {
     return (
-        <div>
-            <form onSubmit={ props.handleSubmit(props.onSubmit) } >
-                <div> <Field name="email" placeholder="login" component={Input} validate={[required]} /> </div>
-                <div> <Field name="password" placeholder="password" component={Input} validate={[required]} /> </div>
-                <div> <Field name="rememberMe" type="checkbox" component="input" /> remember me </div>
-                <div> {props.err} </div>
-                {(props.error) && <div className={s.err} > {props.error} </div>}
-                <div> <button>Login</button> </div>
-            </form>
-        </div>
+        <form onSubmit={props.handleSubmit(props.onSubmit)} >
+
+            <div> <Field name="email" placeholder="login" component={Input} validate={[required]} /> </div>
+            <div> <Field name="password" placeholder="password" component={Input} validate={[required]} /> </div>
+            <div> <Field name="rememberMe" type="checkbox" component="input" /> remember me </div>
+            {(props.error) && <div className={s.err} > {props.error} </div>}
+            {props.captcha &&
+                <div>
+                    <div><img src={props.captcha} /></div>
+                    <Field component={Input} name="captcha" />
+                </div>}
+            <div> <button>Login</button> </div>
+        </form>
     )
 }
-const ReduxLoginForm = reduxForm({form: 'login'})(LoginForm)
+const ReduxLoginForm = reduxForm({ form: 'login' })(LoginForm)
 
 function Login() {
     const dispatch = useDispatch()
-    const isAuth = useSelector(state => state.auth.isAuth )
-    const login = (email, password, rememberMe) => {
-        dispatch(loginTC(email, password, rememberMe))
+    const isAuth = useSelector(state => state.auth.isAuth)
+    const captcha = useSelector(state => state.auth.captcha)
+
+    const login = (email, password, rememberMe, captcha) => {
+        dispatch(loginTC(email, password, rememberMe, captcha))
     }
-    const err = useSelector(state => state.auth.err)
-    const onSubmit = (formData) => {
-        login(formData.email, formData.password, formData.rememberMe)  
+    const onSubmit = ( formData ) => {
+        login(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
-    if (isAuth) {return <Navigate to={'/Profile'} />  }
+    if (isAuth) { return <Navigate to={'/Profile'} /> }
     return (
         <div>
             <h1>Login</h1>
-            <ReduxLoginForm onSubmit={onSubmit} err={err} />
+            <ReduxLoginForm onSubmit={onSubmit} captcha={captcha} />
         </div>
     )
 }

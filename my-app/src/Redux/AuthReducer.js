@@ -1,4 +1,4 @@
-import { HeaderAPI } from "../api/api"
+import { HeaderAPI, securityAPI } from "../api/api"
 import { stopSubmit } from "redux-form"
 
 let SET_USER_DATA = 'auth/SET-USER-DATA'
@@ -8,6 +8,7 @@ let initialState = {
     id: null,
     login: null,
     isAuth: false,
+    captcha: null,
 }
 
 function authReducer(state = initialState, action) {
@@ -21,7 +22,7 @@ function authReducer(state = initialState, action) {
         default: return state
     }
 }
-const setUserDataAC = (email, id, login, isAuth) => ({ type: SET_USER_DATA, payload: { email, id, login, isAuth } })
+const setUserDataAC = (email, id, login, isAuth, captcha) => ({ type: SET_USER_DATA, payload: { email, id, login, isAuth, captcha } })
 
 export const getUserAuthDataTC = () =>
     async (dispatch) => {
@@ -33,14 +34,19 @@ export const getUserAuthDataTC = () =>
         }
     }
 
-export const loginTC = (email, password, rememberMe) =>
+export const loginTC = (email, password, rememberMe, captcha) =>
     async (dispatch) => {
-        let response = await HeaderAPI.Login(email, password, rememberMe)
+        let response = await HeaderAPI.Login(email, password, rememberMe, captcha)
 
         if (response.data.resultCode === 0) {
             dispatch(getUserAuthDataTC())
+        } else {
+            if (response.data.resultCode === 10) {
+                dispatch(getCaptcha())
+            }
+            dispatch(stopSubmit('login', { _error: response.data.messages }))
         }
-        dispatch(stopSubmit('login', { _error: response.data.messages }))
+        
     }
 
 export const logoutTC = () =>
@@ -50,6 +56,13 @@ export const logoutTC = () =>
         if (response.data.resultCode === 0) {
             dispatch(setUserDataAC(null, null, null, false))
         }
+    }
+
+export const getCaptcha = () => 
+    async dispatch => {
+        let response = await securityAPI.getCaptcha()
+        console.log(response)
+        dispatch(setUserDataAC(null, null, null, null, response.data.url))
     }
 
 export default authReducer

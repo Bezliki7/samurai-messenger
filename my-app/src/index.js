@@ -3,14 +3,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import AppContainer from './App';
-import { HashnpmRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 
 
 ReactDOM.render(
-    <HashnpmRouter>
+    <HashRouter>
         <Provider store={store}>
             <AppContainer />
         </Provider>
-    </HashnpmRouter>, document.getElementById('root'));
+    </HashRouter>, document.getElementById('root'));
 

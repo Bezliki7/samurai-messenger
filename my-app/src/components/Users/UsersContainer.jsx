@@ -41,7 +41,6 @@ class UsersAPI extends React.Component {
         this.props.requestUsers(page, this.props.pageSize)
     }
     render() {
-        console.log('ss')
         // let UsersWithAuthRedirect = WithAuthRedirect(Users)
         return (
             <>

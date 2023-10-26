@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form"
 import { ProfilesAPI } from "../api/api"
 
 let ADD_POST = 'ADD-POST'
@@ -5,13 +6,15 @@ let DELETE_POST = 'DELETE-POST'
 let UPDATE_NEW_POST = 'UPDATE-NEW-POST'
 let SET_PROFILE = 'profile/SET-PROFILE'
 let GET_USER_STATUS = 'GET-USER-STATUS'
+let CHANGE_PHOTO = 'CHANGE-PHOTO'
+let SET_EDIT_MODE = 'SET-EDIT-MODE'
 
 let initialState = {
-    datapost: [{ id: 1, post: "я выучу реакт", likes: 15 },
-    { id: 2, post: "привет", likes: 12 }],
+    datapost: [{ id: 1, post: ".", likes: 15 }],
     newPost: '',
     description: {},
-    status: ''
+    status: '',
+    editMode: false,
 }
 
 function profileReducer(state = initialState, action) {
@@ -46,6 +49,18 @@ function profileReducer(state = initialState, action) {
                 status: action.status
             }
         }
+        case CHANGE_PHOTO: {
+            return {
+                ...state,
+                description: { ...state.description, ...action.photoFile }
+            }
+        }
+        case SET_EDIT_MODE: {
+            return {
+                ...state,
+                editMode: action.status
+            }
+        }
         default: return state
     }
 }
@@ -55,6 +70,29 @@ export const deletePostAC = (postId) => ({ type: DELETE_POST, postId })
 export const updateNewPostCreator = (post) => ({ type: UPDATE_NEW_POST, post: post })
 export const setProfileAC = (data) => ({ type: SET_PROFILE, data })
 const getUserStatusAC = (status) => ({ type: GET_USER_STATUS, status })
+const changePhotoSuccess = (photoFile) => ({ type: CHANGE_PHOTO, photoFile })
+export const setEditModeSuccess = (status) => ({ type: SET_EDIT_MODE, status })
+
+
+export const changePhotoTC = (photo) =>
+    async (dispatch) => {
+        let response = await ProfilesAPI.ChangePhoto(photo)
+        dispatch(changePhotoSuccess(response.data.data))
+    }
+
+export const ChangeProfileContactsTC = (media) =>
+    async (dispatch, getState) => {
+        let userId = getState().auth.id
+        let description = getState().profilePage.description
+
+        const response = await ProfilesAPI.ChangeProfileInfo(media, description)
+        if (response.data.resultCode == 0) {
+            dispatch(getProfileTC(userId))
+            dispatch(setEditModeSuccess(false))
+        } else {
+            dispatch(stopSubmit('contacts', { _error: response.data.messages }))
+        }
+    }
 
 export const getProfileTC = (userId) =>
     async (dispatch) => {
@@ -70,13 +108,17 @@ export const getUserStatusTC = (uId) =>
         dispatch(getUserStatusAC(response.data))
     }
 
-export const updateStatusTC = (status) => 
+export const updateStatusTC = (status) =>
     async (dispatch) => {
-        let response = await ProfilesAPI.UpdateStatus(status)
-        
-        if (response.data.resultCode === 0) {
-            dispatch(getUserStatusAC(status))
+        try {
+            let response = await ProfilesAPI.UpdateStatus(status)
+
+            if (response.data.resultCode === 0) {
+                dispatch(getUserStatusAC(status))
+            }
         }
+        catch (err) { console.error(err) }
+
     }
 
 export default profileReducer
