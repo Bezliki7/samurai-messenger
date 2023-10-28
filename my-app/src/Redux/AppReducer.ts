@@ -2,13 +2,13 @@ import { getUserAuthDataTC } from "./AuthReducer"
 
 let INITIALIZATION = 'app/INITIALIZATION'
 
+type InitialStateType = typeof initialState
+
 let initialState = {
     initialized: false,
 }
 
-
-
-function appReducer(state = initialState, action) {
+function appReducer(state = initialState, action: ActionType): InitialStateType  {
     switch (action.type) {
         case INITIALIZATION: {
             return {
@@ -19,10 +19,15 @@ function appReducer(state = initialState, action) {
         default: return state
     }
 }
-const initialization = () => ({ type: INITIALIZATION })
+
+type ActionType = {
+    type: typeof INITIALIZATION
+}
+const initialization = (): ActionType => ({ type: INITIALIZATION })
+
 
 export const initializationTC = () =>
-    (dispatch) => {
+    (dispatch: any) => {
         let promise = dispatch(getUserAuthDataTC())
         promise.then(() => {
             dispatch(initialization())

@@ -9,15 +9,45 @@ let GET_USER_STATUS = 'GET-USER-STATUS'
 let CHANGE_PHOTO = 'CHANGE-PHOTO'
 let SET_EDIT_MODE = 'SET-EDIT-MODE'
 
+type InitialStateType = typeof initialState
+type DataPostType = {
+    id: number
+    post: string
+    likes: number
+}
+type ContactsType = {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
+}
+export type PhotosType = {
+    small: string | null
+    large: string | null
+}
+type DescriptionType = {
+    aboutMe: string
+    contacts: ContactsType
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    photos: PhotosType
+}
+
 let initialState = {
-    datapost: [{ id: 1, post: ".", likes: 15 }],
+    datapost: [{ id: 1, post: ".", likes: 15 }] as Array<DataPostType> ,
     newPost: '',
-    description: {},
+    description: {} as DescriptionType,
     status: '',
     editMode: false,
 }
 
-function profileReducer(state = initialState, action) {
+function profileReducer(state = initialState, action:any):InitialStateType {
     switch (action.type) {
         case ADD_POST: {
             let stateCopy = { ...state }
@@ -65,23 +95,51 @@ function profileReducer(state = initialState, action) {
     }
 }
 
-export const addPostCreator = (post) => ({ type: ADD_POST, post })
-export const deletePostAC = (postId) => ({ type: DELETE_POST, postId })
-export const updateNewPostCreator = (post) => ({ type: UPDATE_NEW_POST, post: post })
-export const setProfileAC = (data) => ({ type: SET_PROFILE, data })
-const getUserStatusAC = (status) => ({ type: GET_USER_STATUS, status })
-const changePhotoSuccess = (photoFile) => ({ type: CHANGE_PHOTO, photoFile })
-export const setEditModeSuccess = (status) => ({ type: SET_EDIT_MODE, status })
+type AddPostActionType = {
+    type: typeof ADD_POST,
+    post: string
+}
+export const addPostCreator = (post:string):AddPostActionType => ({ type: ADD_POST, post })
+type DeletePostAction = {
+    type: typeof DELETE_POST,
+    postId: number
+}
+export const deletePostAC = (postId:number):DeletePostAction => ({ type: DELETE_POST, postId })
+type UpdateNewPostActionType = {
+    type: typeof UPDATE_NEW_POST,
+    post: string
+}
+export const updateNewPostCreator = (post:string):UpdateNewPostActionType => ({ type: UPDATE_NEW_POST, post })
+type SetProfileActionType = {
+    type: typeof SET_PROFILE,
+    data: DescriptionType
+}
+export const setProfileAC = (data:DescriptionType):SetProfileActionType => ({ type: SET_PROFILE, data })
+type GetUserStatusActionType = {
+    type: typeof GET_USER_STATUS,
+    status: string
+}
+const getUserStatusAC = (status:string):GetUserStatusActionType => ({ type: GET_USER_STATUS, status })
+type ChangePhotoSuccessActionType = {
+    type: typeof CHANGE_PHOTO,
+    photoFile: PhotosType
+}
+const changePhotoSuccess = (photoFile:PhotosType):ChangePhotoSuccessActionType => ({ type: CHANGE_PHOTO, photoFile })
+type SetEditModeSuccessActionType = {
+    type: typeof SET_EDIT_MODE,
+    status: boolean
+}
+export const setEditModeSuccess = (status:boolean):SetEditModeSuccessActionType => ({ type: SET_EDIT_MODE, status })
 
 
-export const changePhotoTC = (photo) =>
-    async (dispatch) => {
+export const changePhotoTC = (photo:PhotosType) =>
+    async (dispatch:any) => {
         let response = await ProfilesAPI.ChangePhoto(photo)
         dispatch(changePhotoSuccess(response.data.data))
     }
 
-export const ChangeProfileContactsTC = (media) =>
-    async (dispatch, getState) => {
+export const ChangeProfileContactsTC = (media:ContactsType) =>
+    async (dispatch:any, getState:any) => {
         let userId = getState().auth.id
         let description = getState().profilePage.description
 
@@ -94,22 +152,22 @@ export const ChangeProfileContactsTC = (media) =>
         }
     }
 
-export const getProfileTC = (userId) =>
-    async (dispatch) => {
+export const getProfileTC = (userId:number) =>
+    async (dispatch:any) => {
         let data = await ProfilesAPI.getProfile(userId)
 
         return (dispatch(setProfileAC(data)))
     }
 
-export const getUserStatusTC = (uId) =>
-    async (dispatch) => {
+export const getUserStatusTC = (uId:number) =>
+    async (dispatch:any) => {
         let response = await ProfilesAPI.getUserStatus(uId)
 
         dispatch(getUserStatusAC(response.data))
     }
 
-export const updateStatusTC = (status) =>
-    async (dispatch) => {
+export const updateStatusTC = (status:string) =>
+    async (dispatch:any) => {
         try {
             let response = await ProfilesAPI.UpdateStatus(status)
 

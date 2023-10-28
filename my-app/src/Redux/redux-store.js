@@ -2,10 +2,10 @@ import {configureStore, applyMiddleware  } from '@reduxjs/toolkit'
 import usersReducer from './UsersReducer'
 import profileReducer from './ProfileReducer'
 import messageReducer from './MessageReducer'
-import authReducer from './AuthReducer'
+import authReducer from './AuthReducer.ts'
 import thunkMiddleware from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
-import appReducer from './AppReducer'
+import appReducer from './AppReducer.ts'
 
 
 let store = configureStore({

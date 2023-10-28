@@ -1,7 +1,7 @@
 import Header from './Header'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserAuthDataTC, logoutTC } from '../../Redux/AuthReducer'
+import { getUserAuthDataTC, logoutTC } from '../../Redux/AuthReducer.ts'
 
 
 class HeaderClass extends React.Component {

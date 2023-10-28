@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Input } from "../common/FormsControl/FormsControl"
 import { required } from "../Utils/Validators/Validators"
 import { useDispatch, useSelector } from "react-redux"
-import { loginTC } from "../../Redux/AuthReducer"
+import { loginTC } from "../../Redux/AuthReducer.ts"
 import { Navigate } from "react-router-dom"
 
 const LoginForm = (props) => {

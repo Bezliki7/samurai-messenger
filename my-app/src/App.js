@@ -10,7 +10,7 @@ import { ProfileContainer } from './components/My_Profile/ProfileContainet';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { initializationTC } from './Redux/AppReducer';
+import { initializationTC } from './Redux/AppReducer.ts';
 import Preloader from './components/common/preloader/Preloader';
 // import MessagesContainer from './components/Messages/MessagesContainer'
 const MessagesContainer = React.lazy(() =>  import('./components/Messages/MessagesContainer'))
