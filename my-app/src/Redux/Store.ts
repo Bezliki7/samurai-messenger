@@ -1,6 +1,3 @@
-import messagePageReducer from "./MessagePageReducer"
-import profilePageReducer from "./ProfilePageReducer"
-
 let Store = {
     _State: {
         profilePage: {
@@ -22,7 +19,7 @@ let Store = {
         return this._State
     },
     _callSubcriber() { },
-    subcriber(observer) {
+    subcriber(observer: any) {
         this._callSubcriber = observer
     },
 

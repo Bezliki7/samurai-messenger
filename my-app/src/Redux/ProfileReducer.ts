@@ -1,91 +1,57 @@
-import { stopSubmit } from "redux-form"
-import { ProfilesAPI } from "../api/api"
-
-let ADD_POST = 'ADD-POST'
-let DELETE_POST = 'DELETE-POST'
-let UPDATE_NEW_POST = 'UPDATE-NEW-POST'
-let SET_PROFILE = 'profile/SET-PROFILE'
-let GET_USER_STATUS = 'GET-USER-STATUS'
-let CHANGE_PHOTO = 'CHANGE-PHOTO'
-let SET_EDIT_MODE = 'SET-EDIT-MODE'
-
-type InitialStateType = typeof initialState
-type DataPostType = {
-    id: number
-    post: string
-    likes: number
-}
-type ContactsType = {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
-}
-export type PhotosType = {
-    small: string | null
-    large: string | null
-}
-type DescriptionType = {
-    aboutMe: string
-    contacts: ContactsType
-    userId: number
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    photos: PhotosType
-}
+import { FormAction, stopSubmit } from "redux-form"
+import { ContactsType, DataPostType, DescriptionType, PhotosType } from "../types/Types"
+import { AppStateType, InfernActionsType, ThunkActionType } from "./redux-store"
+import { ProfilesAPI } from "../api/profilesApi"
+import { resultCodes } from "../api/api"
 
 let initialState = {
-    datapost: [{ id: 1, post: ".", likes: 15 }] as Array<DataPostType> ,
+    datapost: [{ id: 1, post: ".", likes: 15 }] as Array<DataPostType>,
     newPost: '',
     description: {} as DescriptionType,
     status: '',
-    editMode: false,
+    editMode: false as boolean,
 }
 
-function profileReducer(state = initialState, action:any):InitialStateType {
+function profileReducer(state = initialState, action: ActionsType): InitialStateType {
     switch (action.type) {
-        case ADD_POST: {
-            let stateCopy = { ...state }
-            stateCopy.datapost = [...state.datapost]
-            stateCopy.datapost.push({ id: 3, post: action.post, likes: 0 })
-            stateCopy.newPost = ''
-            return stateCopy
-        }
-        case DELETE_POST: {
+        case "ADD_POST": {
             return {
                 ...state,
-                datapost: state.datapost.filter(post => { return post.id !== action.postId })
+                datapost: [...state.datapost, { id: 2, post: action.post, likes: 0 }],
+                newPost: ''
             }
         }
-        case UPDATE_NEW_POST: {
-            let stateCopy = { ...state }
-            stateCopy.newPost = action.post
-            return stateCopy
+        case "DELETE_POST": {
+            return {
+                ...state,
+                datapost: state.datapost.filter(p => { return p.id !== action.postId })
+            }
         }
-        case SET_PROFILE: {
+        case "UPDATE_NEW_POST": {
+            return {
+                ...state,
+                newPost: action.postt
+            }
+        }
+        case "SET_PROFILE": {
             return {
                 ...state,
                 description: { ...action.data }
             }
         }
-        case GET_USER_STATUS: {
+        case "GET_USER_STATUS": {
             return {
                 ...state,
                 status: action.status
             }
         }
-        case CHANGE_PHOTO: {
+        case "CHANGE_PHOTO": {
             return {
                 ...state,
                 description: { ...state.description, ...action.photoFile }
             }
         }
-        case SET_EDIT_MODE: {
+        case "SET_EDIT_MODE": {
             return {
                 ...state,
                 editMode: action.status
@@ -95,88 +61,64 @@ function profileReducer(state = initialState, action:any):InitialStateType {
     }
 }
 
-type AddPostActionType = {
-    type: typeof ADD_POST,
-    post: string
+export const actions = {
+    addPostCreator: (post: string) => ({ type: 'ADD_POST', post } as const ),
+    deletePostAC: (postId: number) => ({ type: 'DELETE_POST', postId } as const ),
+    updateNewPostCreator: (postt: string) => ({ type: 'UPDATE_NEW_POST', postt } as const ),
+    setProfileAC: (data: DescriptionType) => ({ type: 'SET_PROFILE', data } as const ),
+    getUserStatusAC: (status: string) => ({ type: 'GET_USER_STATUS', status } as const ),
+    changePhotoSuccess: (photoFile: PhotosType) => ({ type: 'CHANGE_PHOTO', photoFile } as const ),
+    setEditModeSuccess: (status: boolean) => ({ type: 'SET_EDIT_MODE', status } as const ),
 }
-export const addPostCreator = (post:string):AddPostActionType => ({ type: ADD_POST, post })
-type DeletePostAction = {
-    type: typeof DELETE_POST,
-    postId: number
-}
-export const deletePostAC = (postId:number):DeletePostAction => ({ type: DELETE_POST, postId })
-type UpdateNewPostActionType = {
-    type: typeof UPDATE_NEW_POST,
-    post: string
-}
-export const updateNewPostCreator = (post:string):UpdateNewPostActionType => ({ type: UPDATE_NEW_POST, post })
-type SetProfileActionType = {
-    type: typeof SET_PROFILE,
-    data: DescriptionType
-}
-export const setProfileAC = (data:DescriptionType):SetProfileActionType => ({ type: SET_PROFILE, data })
-type GetUserStatusActionType = {
-    type: typeof GET_USER_STATUS,
-    status: string
-}
-const getUserStatusAC = (status:string):GetUserStatusActionType => ({ type: GET_USER_STATUS, status })
-type ChangePhotoSuccessActionType = {
-    type: typeof CHANGE_PHOTO,
-    photoFile: PhotosType
-}
-const changePhotoSuccess = (photoFile:PhotosType):ChangePhotoSuccessActionType => ({ type: CHANGE_PHOTO, photoFile })
-type SetEditModeSuccessActionType = {
-    type: typeof SET_EDIT_MODE,
-    status: boolean
-}
-export const setEditModeSuccess = (status:boolean):SetEditModeSuccessActionType => ({ type: SET_EDIT_MODE, status })
 
-
-export const changePhotoTC = (photo:PhotosType) =>
-    async (dispatch:any) => {
-        let response = await ProfilesAPI.ChangePhoto(photo)
-        dispatch(changePhotoSuccess(response.data.data))
+export const changePhotoTC = (photo: PhotosType):ThunkActionType<ActionsType> =>
+    async (dispatch) => {
+        let data = await ProfilesAPI.ChangePhoto(photo)
+        dispatch(actions.changePhotoSuccess(data.data))
     }
 
-export const ChangeProfileContactsTC = (media:ContactsType) =>
-    async (dispatch:any, getState:any) => {
+export const ChangeProfileContactsTC = (media: ContactsType): ThunkActionType<ActionsType | FormAction> =>
+    async (dispatch, getState: () => AppStateType) => {
         let userId = getState().auth.id
         let description = getState().profilePage.description
 
-        const response = await ProfilesAPI.ChangeProfileInfo(media, description)
-        if (response.data.resultCode == 0) {
+        const data = await ProfilesAPI.ChangeProfileInfo(media, description)
+        if (data.resultCode == resultCodes.Success) {
             dispatch(getProfileTC(userId))
-            dispatch(setEditModeSuccess(false))
+            dispatch(actions.setEditModeSuccess(false))
         } else {
-            dispatch(stopSubmit('contacts', { _error: response.data.messages }))
+            dispatch(stopSubmit('contacts', { _error: data.messages }))
         }
     }
 
-export const getProfileTC = (userId:number) =>
-    async (dispatch:any) => {
+export const getProfileTC = (userId: number | null): ThunkActionType<ActionsType> =>
+    async (dispatch) => {
         let data = await ProfilesAPI.getProfile(userId)
 
-        return (dispatch(setProfileAC(data)))
+        dispatch(actions.setProfileAC(data))
     }
 
-export const getUserStatusTC = (uId:number) =>
-    async (dispatch:any) => {
+export const getUserStatusTC = (uId: number):ThunkActionType<ActionsType> =>
+    async (dispatch) => {
         let response = await ProfilesAPI.getUserStatus(uId)
 
-        dispatch(getUserStatusAC(response.data))
+        dispatch(actions.getUserStatusAC(response.data))
     }
 
-export const updateStatusTC = (status:string) =>
-    async (dispatch:any) => {
+export const updateStatusTC = (status: string): ThunkActionType<ActionsType> =>
+    async (dispatch) => {
         try {
-            let response = await ProfilesAPI.UpdateStatus(status)
+            let data = await ProfilesAPI.UpdateStatus(status)
 
-            if (response.data.resultCode === 0) {
-                dispatch(getUserStatusAC(status))
+            if (data.resultCode === resultCodes.Success) {
+                dispatch(actions.getUserStatusAC(status))
             }
         }
         catch (err) { console.error(err) }
 
     }
+
+export type InitialStateType = typeof initialState
+type ActionsType = InfernActionsType<typeof actions>
 
 export default profileReducer

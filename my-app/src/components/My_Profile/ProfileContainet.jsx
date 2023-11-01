@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Profile from "./Profile"
 import React from "react"
 import { useParams } from "react-router-dom"
-import { ChangeProfileContactsTC, changePhotoTC, getProfileTC, getUserStatusTC, setEditModeSuccess, updateStatusTC } from "../../Redux/ProfileReducer"
+import { ChangeProfileContactsTC, changePhotoTC, getProfileTC, getUserStatusTC, actions, updateStatusTC } from "../../Redux/ProfileReducer"
 import { WithAuthRedirect } from "../HOC/WithAuth"
 
 
@@ -41,7 +41,7 @@ export const ProfileContainer = () => {
     const editMode = useSelector(state => state.profilePage.editMode)
 
     const setEditMode = (status) => {
-        dispatch(setEditModeSuccess(status))
+        dispatch(actions.setEditModeSuccess(status))
     }
     const changeProfileInfo = (data) => {
         dispatch(ChangeProfileContactsTC(data))

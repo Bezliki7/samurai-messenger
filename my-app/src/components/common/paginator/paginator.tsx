@@ -1,9 +1,16 @@
 import styles from "./paginator.module.css"
 import { useState } from "react"
 
+type PaginatorProps = {
+    itemsCount: number  
+    pageSize: number
+    page: number
+    partSize?: number
+    setPage: (page:number) => void
+}
 
-export const Paginator = ({ totalItems, pageSize, page, setPage, partSize = 20 }) => {
-    let totalPage = Math.ceil(totalItems / pageSize)
+export const Paginator = ({ itemsCount, pageSize, page, setPage, partSize = 20 }:PaginatorProps) => {
+    let totalPage = Math.ceil(itemsCount / pageSize)
     let pages = []
     for (let i = 1; i < totalPage + 1; i++) {
         pages.push(i)

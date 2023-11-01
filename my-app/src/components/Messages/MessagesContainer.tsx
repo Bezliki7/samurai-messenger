@@ -1,20 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendMessageCreator, updateMessageCreator } from '../../Redux/MessageReducer';
+import { messagesActions } from '../../Redux/MessageReducer';
 import Messages from './Messages';
 import { WithAuthRedirect } from '../HOC/WithAuth';
+import { AppStateType } from '../../Redux/redux-store';
 
 const MessagesContainer = () => {
     const dispatch = useDispatch()
-    const dialogsData = useSelector(state => state.messagePage.dialogsData)
-    const messagesData = useSelector(state => state.messagePage.messagesData)
+    const dialogsData = useSelector((state: AppStateType) => state.messagePage.dialogsData)
+    const messagesData = useSelector((state: AppStateType) => state.messagePage.messagesData)
 
-    let sendMessage = (text) => {
-        let action = sendMessageCreator(text)
+    let sendMessage = (text:string) => {
+        let action = messagesActions.sendMessageCreator(text)
         dispatch(action)
     };
-    let updateMessage = (text) => {
-        let action = updateMessageCreator(text)
+    let updateMessage = (text:Array<string>) => {
+        let action = messagesActions.updateMessageCreator(text)
         dispatch(action)
     }
     // let MessagesWithAuthRedirect = WithAuthRedirect(Messages)

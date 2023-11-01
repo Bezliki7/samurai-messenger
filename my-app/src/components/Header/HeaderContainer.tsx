@@ -1,10 +1,16 @@
 import Header from './Header'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getUserAuthDataTC, logoutTC } from '../../Redux/AuthReducer.ts'
+import { getUserAuthDataTC, logoutTC } from '../../Redux/AuthReducer'
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks'
 
+type HeaderClassProps = {
+    uLogin: string | null
+    isAuth: boolean
+    getUserAuthData: () => void
+    logout: () => void
+}
 
-class HeaderClass extends React.Component {
+class HeaderClass extends React.Component<HeaderClassProps> {
     componentDidMount() {
         this.props.getUserAuthData()
     }
@@ -14,9 +20,9 @@ class HeaderClass extends React.Component {
 }
 
 function HeaderContainer() {
-    const dispatch = useDispatch()
-    let uLogin = useSelector(state => state.auth.login)
-    let isAuth = useSelector(state => state.auth.isAuth)
+    const dispatch = useAppDispatch()
+    let uLogin = useAppSelector((state) => state.auth.login)
+    let isAuth = useAppSelector(state => state.auth.isAuth)
     
     const logout = () => {
         dispatch(logoutTC())

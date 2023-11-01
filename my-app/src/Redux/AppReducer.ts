@@ -1,8 +1,5 @@
 import { getUserAuthDataTC } from "./AuthReducer"
-
-let INITIALIZATION = 'app/INITIALIZATION'
-
-type InitialStateType = typeof initialState
+import { InfernActionsType } from "./redux-store"
 
 let initialState = {
     initialized: false,
@@ -10,7 +7,7 @@ let initialState = {
 
 function appReducer(state = initialState, action: ActionType): InitialStateType  {
     switch (action.type) {
-        case INITIALIZATION: {
+        case "app/INITIALIZATION": {
             return {
                 ...state,
                 initialized: true
@@ -20,19 +17,19 @@ function appReducer(state = initialState, action: ActionType): InitialStateType 
     }
 }
 
-type ActionType = {
-    type: typeof INITIALIZATION
+const actions = {
+    initialization:  () => ({ type: 'app/INITIALIZATION' }as const)
 }
-const initialization = (): ActionType => ({ type: INITIALIZATION })
-
 
 export const initializationTC = () =>
     (dispatch: any) => {
         let promise = dispatch(getUserAuthDataTC())
         promise.then(() => {
-            dispatch(initialization())
+            dispatch(actions.initialization())
         })
     }
 
+type InitialStateType = typeof initialState
+type ActionType = InfernActionsType<typeof actions>
 
 export default appReducer

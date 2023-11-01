@@ -2,9 +2,16 @@ import React from "react"
 import styles from "./Users.module.css"
 import userPhoto from "../../assets/images/user.jpg"
 import { NavLink } from "react-router-dom"
+import { UsersType } from "../../types/Types"
 
+type UserProps = {
+    user: UsersType
+    isFollowing: Array<number>
+    unfollow: (userId:number) => void
+    follow: (userId:number) => void
+}
 
-function User({ user, isFollowing, unfollow, follow }) {
+function User({ user, isFollowing, unfollow, follow }:UserProps) {
     return (
         <div className={styles.users}>
 

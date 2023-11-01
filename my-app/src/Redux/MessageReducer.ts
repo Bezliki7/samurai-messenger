@@ -1,18 +1,5 @@
-let SEND_MESSAGE = 'SEND-MESSAGE'
-let UPDATE_MESSAGE = 'UPDATE-MESSAGE'
-
-type InitialStateType = typeof initialState
-
-type DialogsDataType = {
-    id: number
-    name: string
-    photo: string
-}
-
-type MessagesDataType = {
-    id: number
-    mess: string
-}
+import { DialogsDataType, MessagesDataType } from "../types/Types"
+import { InfernActionsType } from "./redux-store"
 
 let initialState = {
     dialogsData: [
@@ -22,18 +9,18 @@ let initialState = {
         { id: 4, name: 'Silph', photo: 'https://wallpaperaccess.com/full/5659840.jpg' }] as Array<DialogsDataType>,
     messagesData: [
         { id: 1, mess: 'Rudy' },
-        { id: 2, mess: 'how a u' },] as Array<MessagesDataType> ,
-    newMess: ''
+        { id: 2, mess: 'how a u' },] as Array<MessagesDataType>,
+    newMess: '' as Array<string> | string
 }
 
-function messageReducer(state = initialState, action: any): InitialStateType {
+function messageReducer(state = initialState, action: ActionsType): InitialStateType {
     switch (action.type) {
-        case SEND_MESSAGE:
+        case "SEND_MESSAGE":
             return {
                 ...state,
                 messagesData: [...state.messagesData, { id: 0, mess: action.text }],
             };
-        case UPDATE_MESSAGE:
+        case "UPDATE_MESSAGE":
             return {
                 ...state,
                 newMess: action.newChar
@@ -41,18 +28,13 @@ function messageReducer(state = initialState, action: any): InitialStateType {
         default: return state
     }
 }
-type Action = SendMessageActionType | UpdateMessageACtionType
 
-type SendMessageActionType = {
-    type: typeof SEND_MESSAGE
-    text: string
+export const messagesActions = {
+    sendMessageCreator: (text: string) => ({ type: 'SEND_MESSAGE', text } as const ),
+    updateMessageCreator: (char: Array<string>) => ({ type: 'UPDATE_MESSAGE', newChar: char } as const )
 }
-export const sendMessageCreator = (text: string): SendMessageActionType => ({ type: SEND_MESSAGE, text })
 
-type UpdateMessageACtionType = {
-    type: typeof UPDATE_MESSAGE,
-    newChar: Array<string>
-}
-export const updateMessageCreator = (char: Array<string>): UpdateMessageACtionType => ({ type: UPDATE_MESSAGE, newChar: char })
+type InitialStateType = typeof initialState
+type ActionsType = InfernActionsType<typeof messagesActions>
 
 export default messageReducer

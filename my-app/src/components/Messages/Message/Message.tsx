@@ -1,6 +1,11 @@
 import s from './../Messages.module.css'
 
-const Message = (props) => {
+type MessageProps = {
+    id: number
+    mess: string
+}
+
+const Message = (props:MessageProps) => {
     return (
         <div>
             <div className={s.item}>

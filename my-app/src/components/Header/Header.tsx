@@ -2,7 +2,13 @@ import { NavLink, Navigate } from 'react-router-dom'
 import s from './Header.module.css'
 import React from 'react'
 
-const Header = (props) => {
+type HeaderProps = {
+    isAuth: boolean
+    uLogin: string | null
+    logout: () => void
+}
+
+const Header = (props:HeaderProps) => {
     return (
         <div className={s.header}>
             App

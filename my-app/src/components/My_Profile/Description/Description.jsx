@@ -28,8 +28,9 @@ const Description = ({description, ...props}) => {
                         <label><button>Edit photo</button></label>
                     </div>}
             </div>
-
+                    
             {description.fullName}
+            
             <DescriptionStatus status={props.status} updateStatus={props.updateStatus} />
 
             {props.editMode

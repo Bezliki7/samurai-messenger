@@ -1,6 +1,6 @@
 import React, {memo} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addPostCreator, updateNewPostCreator } from '../../../Redux/ProfileReducer'
+import { actions } from '../../../Redux/ProfileReducer'
 import PostsBlock from './PostsBlock';
 
 const PostsBlockContainer = memo(() => {
@@ -10,7 +10,7 @@ const PostsBlockContainer = memo(() => {
     const photos = useSelector(state => state.profilePage.description.photos)
 
     let addPost = (post) => {
-        let action = addPostCreator(post)
+        let action = actions.addPostCreator(post)
         dispatch(action);
     }
 
