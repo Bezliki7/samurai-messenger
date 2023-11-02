@@ -1,4 +1,3 @@
-import React from "react"
 import profileReducer, { actions } from "./ProfileReducer"
 import { DescriptionType } from "../types/Types"
 

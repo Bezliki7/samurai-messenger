@@ -3,12 +3,15 @@ import s from './Description.module.css'
 import DescriptionDataForm from './DescriptionData/DescriptionDataForm'
 import DescriptionStatus from './DescriptionData/DescriptionStatusWithHooks'
 import DescriptionData from './DescriptionData/DescriptionData'
+import { ProfileProps } from '../Profile'
 
-const Description = ({description, ...props}) => {
+type DescriptionProps = ProfileProps
+
+const Description = ({description, ...props}:DescriptionProps) => {
     if (!description.photos) {
         return <Preloader />
     }
-    const getPhoto = (e) => {
+    const getPhoto = (e:any) => {
         if (e.target.files) {
             props.changePhoto(e.target.files[0])
         }

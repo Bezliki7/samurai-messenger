@@ -1,6 +1,11 @@
 import React,  { useState, useEffect } from "react";
 
-const DescriptionStatus = (props) => {
+type DescriptionStatus = {
+    status: string
+    updateStatus: (status:string) => void
+} 
+
+const DescriptionStatus = (props:DescriptionStatus) => {
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.status)
 
@@ -15,8 +20,8 @@ const DescriptionStatus = (props) => {
         setEditMode(false)
         props.updateStatus(status)
     }
-    const changeStatus = (e) => {
-       setStatus(e.currentTarget.value)
+    const changeStatus = (event:any) => {
+       setStatus(event.currentTarget.value)
     }
 
     return (

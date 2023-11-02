@@ -6,17 +6,23 @@ import News from './components/News/News';
 import Settings from './components/Settings/Settings';
 import { Navigate, Route, Routes } from "react-router-dom"
 import UsersContainer from './components/Users/UsersContainer';
-import { ProfileContainer } from './components/My_Profile/ProfileContainet';
+import { ProfileContainer } from './components/My_Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
-import { useDispatch, useSelector } from 'react-redux';
-import { initializationTC } from './Redux/AppReducer.ts';
+import { useSelector } from 'react-redux';
+import { initializationTC } from './Redux/AppReducer';
 import Preloader from './components/common/preloader/Preloader';
+import { AppStateType } from './Redux/redux-store';
+import { useAppDispatch } from './Hooks/hooks';
 // import MessagesContainer from './components/Messages/MessagesContainer'
 const MessagesContainer = React.lazy(() =>  import('./components/Messages/MessagesContainer'))
 
+type AppProps = {
+  initialized: boolean
+  initialization: () => void
+}
 
-class App extends React.Component {
+class App extends React.Component<AppProps> {
   componentDidMount() {
     this.props.initialization()
   }
@@ -47,8 +53,8 @@ class App extends React.Component {
 }
 
 function AppContainer() {
-  const dispatch = useDispatch()
-  const initialized = useSelector(state => state.app.initialized)
+  const dispatch = useAppDispatch()
+  const initialized = useSelector((state:AppStateType) => state.app.initialized)
 
   const initialization = () => {
     dispatch(initializationTC())

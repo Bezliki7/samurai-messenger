@@ -16,7 +16,7 @@ type LoginFormProps = {
 
 type OwnPropsType = {
     captcha:string | null,
-    onSubmit: (formData:any) => void
+    onSubmit: (formData:LoginFormProps) => void
 }
 
 type NameFieldForLogin = Extract<keyof LoginFormProps, string>

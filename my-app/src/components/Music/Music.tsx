@@ -1,6 +1,10 @@
 import s from './Music.module.css'
 
-const Music = (props) => {
+type MusicProps = {
+
+}
+
+const Music = (props:MusicProps) => {
     return (
         <div>
             music
