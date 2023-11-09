@@ -12,7 +12,15 @@ export const getUsers = createSelector(getUsersSelector, users => {
 })
 
 export const getPage = (state: AppStateType) => {
-    return state.usersPage.currentPage
+    return state.usersPage.page
+}
+
+export const getTerm = (state: AppStateType) => {
+    return state.usersPage.term
+}
+
+export const getFriend = (state: AppStateType) => {
+    return state.usersPage.friend
 }
 
 export const getTotalUsers = (state: AppStateType) => {

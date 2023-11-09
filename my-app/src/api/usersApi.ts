@@ -10,8 +10,8 @@ type getUsersType = {
 }
 
 export const UsersApi = {
-    getUser(currentPage:number, pageSize:number) {
-        return instance.get<getUsersType>(`users?page=${currentPage}&count=${pageSize}`)
+    getUser(page:number, pageSize:number, term:string='', friend:boolean|null = null) {
+        return instance.get<getUsersType>(`users?page=${page}&count=${pageSize}&term=${term}&friend=${friend}`)
             .then(response => { return response.data })
     },
     unfollow(id:number) {
@@ -21,6 +21,6 @@ export const UsersApi = {
     follow(id:number) {
         return instance.post<UsersApiType>(`follow/${id}`)
             .then(response => { return response.data })
-    },
+    }, 
 }
 

@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://bezliki7.github.io/samurai_1.0-messenger/",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@reduxjs/toolkit": "^1.9.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -13,7 +14,10 @@
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
     "@types/redux-form": "^8.3.8",
+    "antd": "^5.11.0",
     "axios": "^1.5.1",
+    "formik": "^2.4.5",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
@@ -24,8 +28,7 @@
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.8",
     "typescript": "^5.2.2",
-    "web-vitals": "^2.1.4",
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

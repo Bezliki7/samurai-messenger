@@ -1,19 +1,11 @@
-.header {
-    grid-area: header;
-    background-color: rgb(0, 0, 0);
-    color: white;
-    
-    }
 
-.loginBlock {
-    float: right;
+
+.header {
+    color: aliceblue;
 }
 
-.loginBlock a{
+.header a{
     color: white;
     text-decoration: none;
 }
 
-.logout:hover {
-    color: orange;
-}
