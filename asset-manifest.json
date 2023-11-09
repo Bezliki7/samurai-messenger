@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/samurai-messenger/static/css/main.094f88a2.css",
-    "main.js": "/samurai-messenger/static/js/main.a16407b3.js",
+    "main.js": "/samurai-messenger/static/js/main.f3e41866.js",
     "static/css/487.67838f3e.chunk.css": "/samurai-messenger/static/css/487.67838f3e.chunk.css",
     "static/js/487.b3d46cf1.chunk.js": "/samurai-messenger/static/js/487.b3d46cf1.chunk.js",
     "static/media/preloader.gif": "/samurai-messenger/static/media/preloader.6e92a46e4333ad9073c8.gif",
     "static/media/user.jpg": "/samurai-messenger/static/media/user.c341ec95338011c255d1.jpg",
     "index.html": "/samurai-messenger/index.html",
     "main.094f88a2.css.map": "/samurai-messenger/static/css/main.094f88a2.css.map",
-    "main.a16407b3.js.map": "/samurai-messenger/static/js/main.a16407b3.js.map",
+    "main.f3e41866.js.map": "/samurai-messenger/static/js/main.f3e41866.js.map",
     "487.67838f3e.chunk.css.map": "/samurai-messenger/static/css/487.67838f3e.chunk.css.map",
     "487.b3d46cf1.chunk.js.map": "/samurai-messenger/static/js/487.b3d46cf1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.094f88a2.css",
-    "static/js/main.a16407b3.js"
+    "static/js/main.f3e41866.js"
   ]
 }
